@@ -17,3 +17,347 @@ In this course you will learn the ideas of reproducible research and reporting o
 
 ## Course Book
 The book [Report Writing for Data Science in R](https://leanpub.com/reportwriting?utm_source=coursera&utm_medium=syllabus&utm_campaign=CourseraSyllabus) is the official course reference textbook. 
+
+# Video: What is reproducible research about?  
+Peng draws an analogy between a straight forward song such as a popular pop song with only a few instruments, repeating lyrics, etc vs a symphony with hundreds of participants and complex moving parts. There is a world of difference in reproducibility. How does it happen that productions of Mahler's 8th Symphony all largely sound the same? We have scores, and in Mahler's case he provided ample annotation to aid in clarity.  
+How do you develop a score for data analysis that related what was done and how to reproduce it? Our hurdle is there isn't a consistent system to communicate. Some describe in words, others provide code and data but there are varying levels of effectiveness. The goal of this course is to write a document that helps others interpret code. 
+
+# Reproducible Research: Concepts and Ideas (part 1)  
+* The ultimate standard for strengthening scientific evidence is replication of findings and conducting studies with independent investigators, data, analytical methods, laboraties, and instruments.  
+* Particularly important in studies that can impact broad policy or regulatory decisions. 
+
+## What's Wrong with replicaton?  
+Some studies cannot be replicated; no time, no money, or unique.  
+If you can't replicate it, what can you do? Middle ground of reproducible research. 
+Reproducible research: make analytic data and code available so that others may reproduce findings.  
+
+## Why do we need reproducible research?  
+* Make everything available (data and computation)
+* New technologies increase data collection throughput, data are more complex and higher dimensional. 
+* Existing databases can be merged into new "megadatabases"
+* Computing power is greatly increased, allowing more sophisticated analyses
+* For every field "X" there is a field "Computational X"
+
+## Example: reproducible air pollution and health research  
+* Estimating small (but important) health effects in the presence of much stronger signals
+* Results inform policy decisions, affect stakeholders and costs money  
+* Complex statistical methods are needed and are subjected to intense scrutiny. 
+
+At John's Hopkins, they created an internet-based health and air pollution surveillance system (iHAPSS)
+
+## Research Pipeline  
+As a consumer you receive an article, but there is a pipeline.  
+Measured data, processing code, analytic data, analytic code, computational results. 
+
+Lots of discussion on media such as Science and the Institute of Medicine. 
+
+## What do we need for reproducible research?  
+* Analytic data (not necessarily raw): . The data that were used for the analysis that was presented should be available for others to access. This is different from the raw data because very often in a data analysis the raw data are not all used for the analysis, but rather some subset is used. It may be interesting to see the raw data but impractical to actually have it. Analytic data is key to examining the data analysis.
+* Analytic code are available (code applied to analytic data)
+* Documentaiton of code and data
+* Standard means of distribution
+
+## Who are the players?  
+* Authors: want to make research reproducible, want tools to make lives easier
+* Readers: want to reproduce and want tools
+
+## Challenges  
+* Authors must undertake considerable effort to put data/results on the web (may not have a web server)
+* Readers must download data individually and piece together which data go with which code sections, etc 
+* Readers may not have same resources as authors
+* Few tools to help authors/readers (though it is growing)
+
+## In reality...  
+* Authors just put stuff on the web, some central databases available
+* Readers just download the data and try to figure it out. 
+
+## Literate (statistical) programming  
+One idea to help out:  
+* An article is a stream of **text** and **code**
+* Analysis code is divided into text and code chunks
+* Each code chunk loads data and computres results
+* Presentation code formats results (tables, figures, etc(
+* Article text explains what is going on
+* Literate programs can be **weaved** to produce human readable documents and **tangled* to produce machine readable documents
+* A general concept that requires a documentation language (human language) and a programming language (machine readable). 
+* Sweave uses LaTeX and R, and has many limitations
+* Focuses on LaTeX, a difficult to learn markup language  
+* Lacks features, and isn't frequently updated. 
+* knitr (pron: knitter) is a more recent package. 
+* Brings together features
+
+## Summary  
+* RR is important as a **minimum standard**, particularly for studies that are difficult to replicate. 
+* Infrastructure is needed for **creating** and **distributing** reproducible documents, beyond what is currently available. 
+* Growing number of tools for reproducible documents
+
+# Video: Scripting your analysis  
+One rule to adhere to for reproducibility: script everything (write everything down)  
+The presentation of an analysis is like hearing a melody. There is a lot of supporting work that went into produce it that should be included. This course is how to define and develop the notation to specify a project or analysis.  
+We do this through scripting. 
+
+# Video: Structure of a data analysis  
+Not every analysis is the same, but this will hopefully provide a template. 
+
+Steps in a data analysis  
+
+* Define the question
+* Define the ideal data set
+* Determine what data you can access
+* Obtain the data
+* Clean the data
+* Exploratory data analysis
+* Statistical prediction/modeling
+* Interpret results
+* Challenge results
+* Synthesize/write up results
+* Create reproducible code
+
+Key challenge in data analysis: Ask yourselves what problem you have solved, ever, that was worth solving, where you were given the information in advance? WHere you didn't have a surplus of information and have to filter out, or you had insufficient information and have to go find some? - Dan Meyer
+
+The more effort you spend defining a question, the less time you spend looking for other things. It reduces the dimension of the question. Interested in height? Weight? In general, the science will determine the question type which will lead to the data. You need three parts: the science, the dataset, and the methods. If you just apply random statistics to a dataset you will find something interesting but it is not likely to be reproducible. 
+
+Examples: Start with a general question "Can I automatically detect emails that are spam or not?" Make it concrete: can I use quantitative characteristics of the emails to classify them as spam/ham?
+
+## Define the ideal data set  
+The data may depend on your goal: descriptive - a whole population, exploratory - a random sample with many variables measured, inferential - the right population, randomly sampled, predictive - a training and test data set from the same population, causal - data from a randomized study, mechanistic - data about all components of the system. 
+
+## For email example  
+Can you find all emails in google data centers? Probably not. Maybe you can find the data free on the web, may buy data (respect terms of use), or generate it yourself.  
+A possible solution: The UCI Machine Learning Repository Spambase data set.  
+
+## Obtain the data  
+* Try to obtain the raw data (and reference the source)
+* Polite emails go a long way  
+* If you load the data from the internet source, record the url and time accessed. 
+
+Our dataset will come from the kernlab package. 
+
+## Clean the data  
+* Raw data often needs processed
+* If it is pre-processed, make sure you understand how
+* Understand the source of data (census, sample, etc)
+* May need to reformat, subsample (record steps)
+* **Determine if the data are good enough**, if not, quit or change data
+
+```{r}
+library(kernlab)
+data(spam)
+str(spam[, 1:5])
+```
+
+First, we need to split our dataset into a test and a training set. 
+
+```{r}
+set.seed(3435)
+trainIndicator <- rbinom(4601, size = 1, prob = 0.5)
+table(trainIndicator)
+
+trainSpam <- spam[trainIndicator == 1, ]
+testSpam <- spam[trainIndicator == 0, ]
+```
+## Exploratory Analysis
+Start with exploratory data analysis and look for:  
+
+* Summaries of the data
+* Check for missing data
+* Create exploratory plots
+* Perform exploratory analysis (ie clustering)
+
+```{r}
+# Column names of trainSpam
+names(trainSpam)
+
+# First 5 rows, shows frequency in which the words appear in emails
+head(trainSpam)
+
+#Shows which are classified as spam and non-spam
+table(trainSpam$type)
+
+# Highly skewed
+plot(trainSpam$capitalAve ~ trainSpam$type)
+
+# Look at log, notice spam emails typically have more capital letters
+plot(log10(trainSpam$ capitalAve + 1) ~ trainSpam$type)
+
+# Relationships between predictors: 
+plot(log10(trainSpam[, 1:4]+ 1))
+
+# Clustering analysis
+hCluster <- hclust(dist(t(trainSpam[, 1:57])))
+plot(hCluster)
+
+# New clustering, note groups; CapitalAve, you/will/your, then a bunch of words
+hCluster2 <- hclust(dist(t(log10(trainSpam[, 1:55] + 1))))
+plot(hCluster2)
+```
+
+## Statistical prediction/modeling  
+* Should be informed by results of your exploratory analysis
+* Exact methods depend on question of interest
+* Transformations/processing should be accounted for when necessary
+* Measures of uncertainty should be reported
+
+```{r}
+trainSpam$numType <- as.numeric(trainSpam$type) - 1
+costFunction <- function(x, y) sum(x != (y > 0.5))
+cvError = rep(NA, 55)
+library(boot)
+
+for (i in 1:55) {
+  lmFormula <- reformulate(names(trainSpam)[i], response = "numType")
+  glmFit <- glm(lmFormula, family = "binomial", data = trainSpam)
+  cvError[i] = cv.glm(trainSpam, glmFit, costFunction, 2)$delta[2]
+}
+
+# Which predictor has minimum cross-validated error? 
+names(trainSpam)[which.min(cvError)]
+```
+
+What this did is it creates a formula for each column in the dataset to predict the response `numType` (spam or not) and finds which has the minimum cross validated error. The result we get is `charDollar` which shows how many dollar signs are in an email. 
+
+If we take this best model from this set of 55 models, we can get a measure of uncertainty: 
+
+```{r}
+# Use the best model from the group
+predictionModel <- glm(numType ~ charDollar, family = "binomial", data = trainSpam)
+
+# Get predictions on the test data set
+predictionTest <- predict(predictionModel, testSpam)
+predictedSpam <- rep("nonspam", dim(testSpam)[1])
+
+# Classify as "spam" for those with prob > 0.5
+predictedSpam[predictionModel$fitted > 0.5] <- "spam"
+
+# Classification table
+table(predictedSpam, testSpam$type)
+
+## Error rate
+(61 + 458) / (1346 + 458 + 61 + 449)
+```
+
+## Interpret results  
+* Use appropriate language
+  * describes
+  * correlates with/associated with
+  * leads to/causes
+  * predicts
+* Give an explanation
+* Interpret coefficients
+* Interpret measures of uncertainty
+
+Our example:  
+* The fraction of characters that are dollar signs can be used to predict if the email is Spam
+* Anything with more than 6.6% dollar signs is classified as Spam 
+* More dollar signs always means more Spam under our prediction
+* Our test error rate was 22.4%
+
+## Challenge results  
+After you develop your results, challenge them! If you don't someone else will.  
+
+* Challenge all steps
+  * Question: is it valid? 
+  * Data source: how did you get it? 
+  * Processing
+  * Analysis
+  * Conclusions
+* Challenge measures of uncertainty
+* Challenge choices of terms to include in models 
+* Think of potential alternative analyses
+
+## Synthesize/write-up results  
+Synthesis is important. Typically you have done many things in a data analysis and you'll need to narrow it to tell a coherent story. 
+
+* Lead with the question
+* Summarize the analyses into the story
+* Don't include every analysis, include it if
+  * It is needed for the story
+  * it is needed to address a challenge
+* Order analyses according to the story, not the order you did them in
+* Include "pretty" figures that contribute to the story
+
+In our example: 
+
+* Lead with the question
+  * Can I use quantitative characteristics of emails to classify them as SPAM/HAM?
+* Describe the approach
+  * Collected data from UCI and created training/data sets
+  * Explored relationships
+  * Choose logistic regression model on training set by cross validation
+  * Applied to test, 78% test set accuracy
+* Interpret results
+  * Number of dollar signs seems reasonable, eg "Make money with Viagra $$$$"
+* Challenge results
+  * 78% isn't that great
+  * I could use more variables
+  * Why logistic regression? 
+
+Finally, make sure you created reproducible code! Markdown, knitr, Quarto. 
+
+# Video: Organizing a Data Analysis  
+Useful tips; note not every project is the same.  
+
+## Data analysis files  
+* Data
+  * Raw data
+  * Processed data
+* Figures
+  * Exploratory figures
+  * Final figures
+* R code
+  * Raw / unused scripts (exploratory)
+  * Final scripts
+  * R Markdown files
+* Text
+  * README files
+  * Text of analysis/report
+
+### Raw data  
+* Should be stored in analysis folder
+* If accessed from web, include url, description, and date accessed in README
+* If using git, can add raw dataset to repository and include details in log file
+
+### Processed data  
+* should be named so it is easy to see which script generated the data
+* Processing script - processed data mapping should occur in the README (which files were used)
+* Processed data should be tidy  
+
+### Exporatory figures  
+* Figures made during the course of your analysis, not necessarily part of your final report. 
+* They do not need to be "pretty" but usable
+
+### Final figures  
+* Usually a small subset of the original figures
+* Axes/colors set to make the figure clear
+* Possibly multiple panels
+
+### Raw scripts  
+* May be less commented (but comments help you!)
+* May be multiple versions
+* May include analyses that are later discarded
+
+### Final scripts  
+* Clearly commented
+  * small comments liberaly, what why when how
+  * bigger commented blocks for whole sections
+* Include processing details
+* Only analyses that appear in the final write-up
+
+### R markdown files  
+* Can be used to generate reproducible reports 
+* Text and R code are integrated
+* Very easy to create in RStudio
+
+### README Files  
+* Not necessary if you use R markdown 
+* Should contain step-by-step instructions for analysis
+* Here is an example: https://github.com/jtleek/swfdr/blob/master/README.md
+
+### Text of the document  
+* It should include a title, introduction (motivation), methods (Statistics you used), results (including measures of uncertainty), and conclusions (including potential problems)
+* It should tell a story
+* It *should not* include every analysis you performed
+* References should be included for statistical methods 
+
+### Further resources  
+Project template: a pre-organized set of files for datta analysis. 
