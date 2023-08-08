@@ -1,0 +1,95 @@
+---
+title: "Week 3"
+format: html
+editor: visual
+---
+
+# Video: Communicating Results  
+You cannot present everything at once, so what hierarcy of information should you follow?  
+* People are busy, especially managers or leaders
+* Results of data analysis are sometimes in oral form, but often first presented via email. 
+* It is often useful to break the results of an analysis into different levels of granularity / detail
+* How to get responses from busy people: <http://goo.gl/sJDb9V>  
+
+## Hierarchy of information: Research paper  
+* Title / author list
+* Abstract
+* Body / Results
+* Supplemental materials / the gory details
+* Code / data/ really gory details
+
+## Hierarchy of information: Email presentation  
+* Subject line / sender info 
+  * At a minimum, include one
+  * Can you summarize findings in one sentence? 
+* Email body
+  * A brief descripton of the problem / context; recall what was proposed and executed; summarize findings / results; 1-2 paragraphs
+  * If action needs to be taken, suggest some options and make them concrete
+  * If questions need to be addressed, try to make them yes / no
+* Attachments
+  * R markdown file
+  * knitr report
+  * Stay concise; don't spit out pages of code
+* Links to supplementary materials
+  * Code / software / data
+  * Github repository / project web site
+
+# Video: RPubs  
+Service R Studio provides; once you create an account you can publish R Markdown documents here. 
+
+# Video: Reproducible Research Checklist  
+By no means a comprehensive checklist but is a place to start.  
+
+## DO: Start with good science  
+* Garbage in, garbage out
+* Coherent, focused question simplifies many problems
+* Working with good collaborators reinforces good practices
+* Something that's interesting to you will (hopefully) motivate good habits  
+
+## DON'T: Do things by hand  
+* Editing spreadsheets of data to "clean it up"
+  * Removing outliers
+  * QA/QC
+  * Validating
+* Editing tables or figures (rounding/formatting)
+* Downloading data round your computer; splitting/reformatting data files
+* "We're just going to do this once..."
+
+Things done by hand need to be precisely documented (harder than it sounds!). By doing this programatically, you create a reproducible pathway others can follow. 
+
+## DON'T: Poing and Click  
+* Many data processing / statistical packages have GUI's. 
+* GUI's are convenient / intuitive but actions that you take with a GUI can be difficult for others to reproduce
+* Some GUIs produce a log file or script which includes equivalent commands; these can be saved for later examination
+* In general, be careful with data analysis software that is highly *interactive*; ease of use can sometimes lead to non-reproducible analyses
+* Other interactive software such as text editors are usually fine  
+
+## DO: Teach a computer  
+* If something needs to be done as part of your analysis, try to teach your computer to do it (even if you only need to do it once)
+* In order to give your computer instructions, you need to write down exactly what you need to do and how it should be done
+* Teaching a computer almost guarantees reproducibility
+
+For example, by hand, you can:
+
+1. Go to the UCI Machine learning Repository at <http://archive.ics/uci/edu/ml/>
+2. Down the bike sharing dataset by clicking on the data folder, then clicking on the link to the zip file of dataset, and choosing "Save linked file as..." and then saving it to a folder on your computer. 
+
+OR, you can teach your computer to do the same thing using R: 
+
+```{r, eval = FALSE}
+download.file("http://archive.ics.uci.edu/machine-learning-databases/00275/Bike-Sharing-Dataset.zip", "ProjectData/Bike-Sharing-Dataset.zip")
+```
+
+Notice that:  
+* The full URL to the dataset is specified (no clicking through a series of links)
+* The name of the file saved to your computer is specified
+* THe directory in which the file was saved is specified ("ProjectData")
+* Code can always be executed in R (as long as the link is available)
+
+## DO: Use some version control  
+* Slows things down
+* Add changes in small chunks (don't just do one massive commit)
+* Track/tag snapshots, revert to old versions
+* Software like GitHub/GitBucket/SourceForge make it easy to publish results. 
+
+Main feature is it helps slow you down a bit. You *need* to track what is changed. 

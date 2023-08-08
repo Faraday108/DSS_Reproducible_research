@@ -1,0 +1,157 @@
+---
+title: "Week 2"
+format: html
+editor: visual
+---
+
+# Coding Standards in R
+
+Help make code readable. Important to have standards.
+
+1.  Always use text files / text editor (such as RStudio) in a standard format. Advantage is they can be read by almost any editing program.
+2.  Indent your code. Different blocks of code should be spaced further to right. (4 minimum, 8 ideal)
+3.  Limit the width of your code (80 columns or so).
+4.  Limit the length of individual functions (one basic activity ie read_data). Helps with debugger/profiler, it tells you in which function the issue happened.
+
+# Introduction to Markdown
+
+Simplfied markup language.
+
+"Markdown is a text-to-HTML conversion tool for web writers. Markdown allows you to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML)." - John Gruber, creator of Markdown.
+
+```{r, eval = FALSE}
+*italics*
+**bold**
+- or * for unordered list
+## Section headers with different numbers of pound signs
+Links: [Description](www.)
+
+Advanced links: 
+I spend so much time reading [R bloggers][1] and [Simply Statistics][2]!
+
+If you have long urls: 
+[1]: http://www.r-bloggers.com/ "R bloggers"
+[2]: http://simplystatistics.org/ "Simply Statistics"
+
+Newlines require double spaces at end of line. 
+```
+
+# R Markdown
+
+R code integrated with Markdown language
+
+## What is markdown?
+
+-   Created by John Gruber and Aaron Swartz
+-   A simplified version of "markup" languages
+-   Allows one to focus on writing as opposed to formatting
+-   Simple/minimal intuitive formatting elements
+-   Easily converted to valid HTML (and other formats)
+
+## What is R Markdown?
+
+-   Integration of R code with markdown
+-   ALlows one to create documents containing "live" R code
+-   R code is evaluated as part of the processing of the markdown
+-   Results from R code are inserted into markdown document
+-   A core tool in **literate statistical programming**
+-   R markdown can be converted to standard markdown using the `knitr` package in R
+-   Markdown can be converted to HTML using the markdown package in R
+-   Any basic text editor can be used to create a markdown document; no special tools needed
+-   The R markdown -\> markdown -\> HTML workflow can be easily managed in R Studio
+-   Slides from this lecture were written in R Markdown and converted to slides using the `slidify` package
+
+# Video: knitr
+
+## Literate Statistical Programming with Knitr
+
+### Problems, problems
+
+-   Authors must make considerable effort to put data/results on web
+-   Reader must download data/results individually and piece together which data goes with which code
+-   Authors/readers must manually interact with websites
+-   No single document to integrate data analysis with textual representations; data, code, and text not linked
+
+## How do I make my work reproducible?
+
+-   Decide to do it (ideally from start
+-   Keep track of things, perhaps with version contril to track snapshots/changes
+-   Use software whose operation can be coded (generally rules out graphical user interfaces)
+-   Don't save output (temporary data transformations), but rather original data and the transformations
+-   Save data in non-proprietary formats
+
+## Literate programming: pros
+
+-   Text and code all in one place, logical ordering
+-   Data, results automatically updated to reflect external changes
+-   Code is live - automatic "regression test (any mistakes?)" when building a document
+
+## Literate programming: cons
+
+-   Text and code all in one place; can make documents difficult to read if there is a **lot** of code
+-   Can slow down processing of documents (tools can help such as caching)
+
+## What is knitr?
+
+-   An R package written by Yihui Xie (while a grad student)
+-   Supports RMarkdown, LaTeX, and HTLM
+-   Can suport to PDF, HTML
+-   Built into RStudio
+
+## Requirements
+
+-   A recent version of R
+-   A text editor (one comes with RStudio is okay)
+-   Some support packages available on CRAN
+-   Some knowledge of Markdown, LaTeX, or HTML
+
+## What is knitr good for?
+
+-   Manuals
+-   Short/medium length technical documents
+-   Tutorials
+-   Reports (especially if generated periodically)
+-   Data processing documents/summaries
+
+## What is knitr not good for?
+
+-   Very long research articles
+-   Complex time-consuming computations
+-   Documents that require precise formatting
+
+# Knitr examples
+
+I didn't copy these as most of it is redundant to my current experience. I will include the novel portions here.
+
+## Making tables with xtable
+
+xtable will produce a html table that when knit will show a table. This doesn't appear to work in this version of R.
+
+```{r, eval = FALSE}
+library(datasets)
+data("airquality")
+fit <- lm(Ozone ~ Wind + Temp + Solar.R, data = airquality)
+
+library(xtable)
+xt <- xtable(summary(fit))
+print(xt, type = "html")
+```
+
+## Common options
+
+-   Output
+    -   Results: "asis", "hide"
+    -   echo: TRUE, FALSE
+-   Figures
+    -   fig.height: numeric
+    -   fig.width: numeric
+
+## Caching computations
+
+-   What if one chunk takes a long time?
+-   All chunks have to be recomputed every time you reknit
+-   The cache = TRUE option can be set chunk by chunk to store results of computation.
+-   After first run, results are loaded from cache
+-   If the data or code changes (or anything external), you need to re run the cached code chunks.
+-   Dependencies are not checked explicitly
+-   Chunks will significant *side effects* may not be cacheable.
