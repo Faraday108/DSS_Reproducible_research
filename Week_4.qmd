@@ -44,3 +44,68 @@ Using a SHA-1 has described (for example in a journal), you can `clonecache` the
 * The package can be used by authors to create cache packages from data analysis for distribution 
 * Readers can use the package to inspect other's data analysis by examining the cached computations
 * Package is mindful of readers resources and efficiently loads only those data objects that are needed. 
+
+# Case Study: Air pollution  
+Which chemical constituents of air pollution are harmful? Everything or just parts? If we can identify the worst parts, we can regulate those more strictly. Currently we just regulate the total amount of particles of the air, not what they are or where they come from. 
+
+## NMMAPS  
+* THe national morbidity, mortality, and air pollution study was a national study of the short-term health affects of air pollution. 
+* Focused primarily on PM~10~ and ozone O^3^
+* Health outcomes included mortality from all causes and hospitalizations for cardiovascular and respiratory diseases
+* Key publications
+  * <http://www.ncbi.nlm.nih.gov/pubmed/11098531>
+  * <http://www.ncbi.nlm.nih.gov/pubmed/11354823>
+* Funded by the Health Effects Institute
+
+## NMMAPS and reproducibility  
+* Data was made available at the internet-based Health and Air Pollution Surveillance System (<http://www.ihapss.jhsph.edu>)
+* Research results and software also available at iHAPSS
+* Many studies have been based on the public data
+* Has served as an important test bed for methodological development 
+
+## What causes particulate matter to be toxix?  
+* Strong evidence was found that Ni modified the short-term effect of PM~10~ across 60 communities
+* No other PM constituent seemed to have the same modifying effect
+* Too simple to be true? 
+
+## A reanalysis of the Lippmann *et al*. study  
+* Reexamine the data from NMMAPS and link with the PM chemical constituent data
+* Are the findings sensitive to levels of Nickel in NYC? 
+
+## Does Nickel make PM toxic?  
+* Plot of long-term average of nickel concentration vs % increase in mortality. Long-term average appears to be correlated with mortality
+* There appear to be some outliers on the right-hand side (all turn out to be NYC)
+* If you fit a regression line, there is a positive slope and it is statistically significant. 
+* However, if you remove the outliers, the result is no longer statistically significant (p < 0.31)
+* Another analysis showed the slopes of the regression lines with various communities removed. Only the removal of NYC changed the slope to eliminate statistical significance. Shows the slope estimate is very sensitive to NYC
+
+## What have we learned?  
+* NYC does have very high levels of nickel and vanadium, much higher than other US communities
+* There is evidence of a positive relationship between Ni concentrations and *PM~20~* risk 
+* The strength of this relationship is highly sensitive to the observations from NYC
+* Most of the information is derived from just three observations 
+
+## Lessons learned  
+* Reproducibility of NMMAPS allowed for a secondary analysis investigating a novel hypothesis. 
+* Reproducibility also allowed for a critique of that new analysis and some additional new analysis
+* Original hypothesis not necessarily invalidated, but evidence not as strong as originally suggested
+* Reproducibility allows for scientific discussion to occur in a timely and informed manner
+
+# Video: Case study - high throughput biology reproducible research  
+Why is RR so important in H-TB? Our intuition about what "makes sense" is very poor in high dimensions. We may have some intuition for single genes, but with 100 genes... who knows. To use "genomic signatures" as biomarkers, we need to know they've been assembled correctly. Without documentation, we may need to employ *forensic bioinformatics* to infer what was done to obtain the results.  
+
+## Case study: Using the NCI60 to predict sensitivity  
+* The main conclusion is that we can use microarray data from cell lines (the NCI60) to define drug response "signatures", which can be used to predict whether patients will respond.  
+* They provide examples using 7 commonly used agents and got great results
+* This got people at MDA very excited.  
+* When they fit the training data, they got separation as expected. 
+* When they fit the testing data there wasn't any clustering. Did they do something wrong? 
+
+* Their software requires two input files: 
+  1. A *quantification matrix*, with a header giving classifications
+  2. A *list of probeset ids* in the same order as the quantification matrix, without a header row. 
+
+If they tried this, what did they get? They found out if they included a header on 2, they got the same error that they did.  
+The fact they were able to match the heat maps of the paper but not the genes is disturbing; the software also gives predictions. 
+
+RR Theme: Don't take my word for it. All the raw data, documentation, and code, are available. 
